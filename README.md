@@ -3,16 +3,23 @@
 
 ### Summary
 
-This project is designed to fulfill the requirements for P6 of the Udacity Data Analyst Nanodegree. The dataset chosen for this project was originally wrangled and cleaned for P4: Data Exploration in R. Dataset and analysis are located in the [DataExploration_R repository](https://github.com/WhitneyOnTheWeb/DataExploration_R). 
+The dataset chosen for this project was originally wrangled and cleaned for P4: Data Exploration in R, which is located in the [DataExploration_R repository](https://github.com/WhitneyOnTheWeb/DataExploration_R). 
 
 Th dataset contains information about and sales numbers for *VGChartz: Top 10,000 Best Selling Video Games Globally*. Expanding on the wrangled and cleaned dataset generated as part of an earlier project made sense, since it allowed me to work with an original dataset without expending a lot of extra time doing it again. 
 
 ### Design
 
 
+
 ### Feedback
 
-Pending first draft completion and review process
+#### *First Draft*
+
+#### *Revision 1*
+
+#### *Revision 2*
+
+#### *Revision 3 - Final*
 
 ### Resources
 

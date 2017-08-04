@@ -40,6 +40,17 @@
                 .append('p')
                 .text('This chart uses global units sales data provided by VGChartz to visualize the popularity of video game franchises year over year.')
 
+            d3.select('body') // Add factoids about insights that can be expected from the data visualization
+                .append('ul')
+                    .append('li')
+                        .text('Lorem Ipsum')
+                    .append('li')
+                        .text('Lorem Ipsum')
+                    .append('li')
+                        .text('Lorem Ipsum')
+                    .append('li')
+                        .text('Lorem Ipsum')
+
             d3.select('body') // Add chart title
                 .append('h3')
                 .text('Franchise (Units Shipped) by Year')
