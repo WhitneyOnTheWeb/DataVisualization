@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Whitney King">
+    <title>P6: Data Visualization - Whitney King</title>
+    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <!--Import d3.js-->
+    <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+    <!--Import dimple.js-->
+    <script type="text/javascript" src="wk_script.js"></script>
+    <!--Import JavaScript file-->
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <!--Import CSS file-->
+
+    <script type="text/javascript">
+        // Chart setup
+        // D3 Chart: Draw function
+
+        function draw(data) {
+            "use strict";
+
+            // Sizing and Position Variables
+            var margin = 75,
+                width = 1400 - margin,
+                height = 600 - margin;
+
+            var radius = 3,
+                multiplier = 2;
+
+            var color = 'red';
+
+            d3.select('body') // Add page title
+                .append('h2')
+                .text('VGChartz: Top 10,000 Best Selling Video Games Globally');
+
+            d3.select('body') // Add description of data visualization
+                .append('p')
+                .text('This chart uses global units sales data provided by VGChartz to visualize the popularity of video game franchises year over year.')
+
+            d3.select('body') // Add chart title
+                .append('h3')
+                .text('Franchise (Units Shipped) by Year')
+
+            var svg = d3.select('body') // Frame chart area
+                .append('svg')
+                    .attr('width', width + margin)
+                    .attr('height', height + margin)
+                .append('g')
+                    .attr('class', 'chart');
+
+            debugger;
+
+            // Draw data points
+            d3.select('svg')
+                .selectAll('circle')
+                .data(data)
+                .enter()
+                .append('circle')
+                    .attr('class', 'datapoint');
+
+            //debugger;
+            
+            // Create X-Axis (Time)
+            var time_extent = d3.extent(data, function (d) {
+                return d['Year'];
+            });
+
+            var time_scale = d3.scaleTime()
+                .range([margin, width])
+                .domain(time_extent);
+
+            var time_axis = d3.axisBottom()
+                .scale(time_scale)
+                .ticks(d3.timeYear, 2);
+
+            // Create Y-Axis (Measure)
+            var count_extent = d3.extent(data, function (d) {
+                return d['Global_Sales'];
+            });
+
+            var count_scale = d3.scaleLinear()
+                .range([height, margin])
+                .domain(count_extent);
+
+            var count_axis = d3.axisLeft()
+                .scale(count_scale);
+
+            d3.select('svg')
+                .append('g')
+                    .attr('class', 'x axis')
+                    .attr('transform', 'translate(0,' + margin + ')')
+                .call(time_axis);
+
+            d3.select('svg')
+                .append('g')
+                    .attr('class', 'y axis')
+                    .attr('transform', 'translate(' + margin + ',0)')
+                .call(count_axis);
+
+            d3.selectAll('circle')
+                .attr('cx', function (d) {
+                    return time_scale(d['Year']);
+                })
+                .attr('cy', function (d) {
+                    return count_scale(d['Global_Sales'])
+                })
+                .attr('r', radius)
+                .attr('fill', color);
+        };
+    </script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        /*
+        Use D3 to load the CSV file
+        and pass the contents of it to the draw function
+        */
+        format = d3.timeFormat("%Y");
+
+        d3.csv("vgsales_clean.csv", function (d) {
+            d['Rank'] = +d['Rank'];
+            d['Year'] = +d['Year'];
+            if (!isNaN(d['NA_Sales'])) { d['NA_Sales'] = parseFloat(d['NA_Sales']); }
+            if (!isNaN(d['EU_Sales'])) { d['EU_Sales'] = parseFloat(d['EU_Sales']); }
+            if (!isNaN(d['JP_Sales'])) { d['JP_Sales'] = parseFloat(d['JP_Sales']); }
+            if (!isNaN(d['Other_Sales'])) { d['Other_Sales'] = parseFloat(d['Other_Sales']); }
+            if (!isNaN(d['Global_Sales'])) { d['Global_Sales'] = parseFloat(d['Global_Sales']); }
+            return d;
+        }, draw);
+    </script>
+</body>
+
+</html>
