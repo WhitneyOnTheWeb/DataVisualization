@@ -1,5 +1,6 @@
 # Data Visualization
 ## P6: Make Effective Data Visualization
+#### Author: Whitney King
 
 ### Summary
 
@@ -9,7 +10,10 @@ Th dataset contains information about and sales numbers for *VGChartz: Top 10,00
 
 ### Design
 
+One of the most interesting, yet difficult to explore charts from the data exploration was global sales for each game released, faceted by franchise. This returned a whole lot of information, but so many charts, that it quickly becomes overwhelming for any reader attempting to glean information from it. When thinking about which findings to detail in an interactive data visualization, this was the one that jumped to the front as one that would be a lot more useful if the user could interactively explore some more.
 
+The design for this data visualization was chosen to be a line graph with scatterplot points that will show detailed information
+about any given game in a franchise when the user hovers over a point. Additionally, the user will be able to pick from a list of video game franchises that will drill down into the sales trends for each franchise year over year.
 
 ### Feedback
 
