@@ -5,14 +5,11 @@
     <meta charset="utf-8">
     <meta name="author" content="Whitney King">
     <title>P6: Data Visualization - Whitney King</title>
-    <script src="http://d3js.org/d3.v4.min.js"></script>
-    <!--Import d3.js-->
-    <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
-    <!--Import dimple.js-->
-    <script type="text/javascript" src="wk_script.js"></script>
-    <!--Import JavaScript file-->
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <!--Import CSS file-->
+    <script src="http://d3js.org/d3.v4.min.js"></script>                    <!--Import d3.js-->
+    <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>   <!--Import dimple.js-->
+    <script src="http://colorbrewer2.org/export/colorbrewer.js"></script>  <!--Import D3 ColorBrewer-->
+    <script type="text/javascript" src="wk_script.js"></script>             <!--Import JavaScript file-->
+    <link rel="stylesheet" type="text/css" href="style.css" />              <!--Import CSS file-->
 
     <script type="text/javascript">
         // Chart setup
@@ -23,14 +20,43 @@
             "use strict";
 
             // Sizing and Position Variables
-            var margin = 75,
-                width = 1400 - margin,
-                height = 600 - margin;
+            var margin = 50,
+                width = 1000 - margin,
+                height = 550 - margin;
 
             var radius = 3,
                 multiplier = 2;
+            var colors = {'2600' : '#75C2EF',
+                          '3DS' : '#77D7EF',
+                          'DC' : '#79ECEF',
+                          'DS' : '#7BEFDE',
+                          'GB' : '#7DEFCB',
+                          'GBA' : '#80EFB8',
+                          'GC' : '#82EFA6',
+                          'GEN' : '#84EF95',
+                          'N64' : '#88EF86',
+                          'NES' : '#9CEF88',
+                          'NG' : '#AFEE8B',
+                          'PC' : '#C1EE8D',
+                          'PS' : '#D2EE8F',
+                          'PS2' : '#E3EE91',
+                          'PS3' : '#EEE993',
+                          'PS4' : '#EEDA95',
+                          'PSP' : '#EECB98',
+                          'PSV' : '#EEBD9A',
+                          'SAT' : '#EEB09C',
+                          'SCD' : '#EDA49E',
+                          'SNES' : '#EDA0A8',
+                          'TG16' : '#EDA3B7',
+                          'Wii' : '#EDA5C5',
+                          'WiiU' : '#EDA7D2',
+                          'WS' : '#EDA9DF',
+                          'X360' : '#EDABEA',
+                          'XB' : '#E4ADED',
+                          'XOne' : '#DAB0ED'};
 
-            var color = 'red';
+            var epsilon = 15,
+                jitter = Math.random() * (2 * epsilon) - epsilon; // Add random jitter to scatterplot
 
             d3.select('body') // Add page title
                 .append('h2')
@@ -38,14 +64,14 @@
 
             d3.select('body') // Add description of data visualization
                 .append('p')
-                .text('This chart uses global units sales data provided by VGChartz to visualize the popularity of video game franchises year over year.')
+                .text('This chart uses global units sales data provided by VGChartz to visualize the popularity of video game consoles year over year by units sold.')
 
             d3.select('body') // Add factoids about insights that can be expected from the data visualization
                 .append('ul')
                     .append('li')
-                        .text('Lorem Ipsum')
+                        .text('Y-Axis is shown in logarithmic scale due to the extremely wide range in values for number of units sold')
                     .append('li')
-                        .text('Lorem Ipsum')
+                        .text('X-Axis only shows games from 1980 - 2016, which were years with complete data')
                     .append('li')
                         .text('Lorem Ipsum')
                     .append('li')
@@ -53,7 +79,41 @@
 
             d3.select('body') // Add chart title
                 .append('h3')
-                .text('Franchise (Units Shipped) by Year')
+                .text('Platform (Units Shipped) by Year')
+
+            function select_game(data) {
+                return data.map(function (d) {
+                    return {
+                        'Rank' : d.Rank,
+                        'Name' : d.Name,
+                        'Platform' : d.Platform,
+                        'Year' : d.Year,
+                        'Genre' : d.Genre,
+                        'Publisher' : d.Publisher,
+                        'NA_Sales' : d.NA_Sales,
+                        'EU_Sales' : d.EU_Sales,
+                        'JP_Sales' : d.JP_Sales,
+                        'Other_Sales' : d.Other_Sales,
+                        'Global_Sales' : d.Global_Sales,
+                        'Decade' : d.Decade,
+                        'Franchise' : d.Franchise,
+                        'Console Company' : d.Console_Company
+                    }
+                })
+            }
+
+            var nested = d3.nest()
+                .key(function(d) {
+                    return d.Platform;
+                })
+                .rollup(select_game)
+                .entries(data);
+
+            function update(platform) {
+                var selected_platform = nested.filter(function(d) {
+                    return +d.key === platform;
+                });
+            };
 
             var svg = d3.select('body') // Frame chart area
                 .append('svg')
@@ -69,14 +129,14 @@
                 .enter()
                 .append('circle')
                     .attr('class', function(d) {
-                            return 'franchise-' + d['Franchise'].replace(' ', '-') 
-                                 + ' company-' + d['Console_Company'] 
-                                 + ' genre-' + d['Genre'];
+                            return 'platform-' + d.Platform.replace(' ', '-') 
+                                 + ' company-' + d.Console_Company
+                                 + ' genre-' + d.Genre;
                         });
 
             // Create X-Axis (Time)
             var time_extent = d3.extent(data, function (d) {
-                return d['Year'];
+                 return d.Year;
             });
 
             var time_scale = d3.scaleTime()
@@ -89,16 +149,19 @@
 
             // Create Y-Axis (Measure)
             var count_extent = d3.extent(data, function (d) {
-                return d['Global_Sales'];
+                return d.Global_Sales;
             });
 
-            var count_scale = d3.scaleLinear()
+            var count_scale = d3.scaleLog()
+                .base(Math.E)
                 .range([height, margin])
                 .domain(count_extent);
 
             var count_axis = d3.axisLeft()
-                .scale(count_scale);
+                .scale(count_scale)
+                .ticks(10, d3.format('d'));
 
+            // Draw Axes
             d3.select('svg')
                 .append('g')
                     .attr('class', 'x axis')
@@ -111,15 +174,29 @@
                     .attr('transform', 'translate('+ margin + ',0)')
                 .call(count_axis);
 
+            // Position and style datapoints
             d3.selectAll('circle')
                 .attr('cx', function (d) {
-                    return time_scale(d['Year']);
+                    return time_scale(d.Year) + d.Jitter;
                 })
                 .attr('cy', function (d) {
-                    return count_scale(d['Global_Sales'])
+                    return count_scale(d.Global_Sales)
                 })
                 .attr('r', radius)
-                .attr('fill', color);
+                .attr('fill', function(d) {
+                    for (var color in colors) {
+                        //debugger;
+                        var match = false;
+
+                        if (d.Platform == color) {
+                            //debugger;
+                            match = true;
+                            return colors[color];
+                        }
+
+                        if (match) { break; }
+                    }
+                });
         };
     </script>
 </head>
@@ -133,13 +210,23 @@
         formatYear = d3.timeParse("%Y");
         
         d3.csv("vgsales_clean.csv", function (d) {
-            d['Rank'] = +d['Rank'];
-            d['Year'] = formatYear(+d['Year']);
-            if (!isNaN(d['NA_Sales'])) { d['NA_Sales'] = parseFloat(d['NA_Sales']); }
-            if (!isNaN(d['EU_Sales'])) { d['EU_Sales'] = parseFloat(d['EU_Sales']); }
-            if (!isNaN(d['JP_Sales'])) { d['JP_Sales'] = parseFloat(d['JP_Sales']); }
-            if (!isNaN(d['Other_Sales'])) { d['Other_Sales'] = parseFloat(d['Other_Sales']); }
-            if (!isNaN(d['Global_Sales'])) { d['Global_Sales'] = parseFloat(d['Global_Sales']); }
+            var epsilon = 15,
+                jitter = Math.random() * (2 * epsilon) - epsilon; // Add random jitter to scatterplot
+
+            d.Rank = +d.Rank;
+            d.Year = formatYear(+d.Year); // Convert Year to DateTime
+            if (!isNaN(d.NA_Sales)) { d.NA_Sales = parseFloat(d.NA_Sales); } // Convert decimals to float values
+            if (!isNaN(d.EU_Sales)) { d.EU_Sales = parseFloat(d.EU_Sales); }
+            if (!isNaN(d.JP_Sales)) { d.JP_Sales = parseFloat(d.JP_Sales); }
+            if (!isNaN(d.Other_Sales)) { d.Other_Sales = parseFloat(d.Other_Sales); }
+            if (!isNaN(d.Global_Sales)) { d.Global_Sales = parseFloat(d.Global_Sales); }
+            d.Jitter = parseFloat(jitter.toFixed(4)); //Add x-axis jitter value for datapoint
+            if ((d.Year == 'Tue Jan 01 1980 00:00:00 GMT-0800 (Pacific Standard Time)') && (d.Jitter < 0)) {
+                d.Jitter = 0;
+            }  
+            if ((d.Year == 'Fri Jan 01 2016 00:00:00 GMT-0800 (Pacific Standard Time)') && (d.Jitter > 0)) {
+                d.Jitter = 0;
+            }
             return d;
         }, draw);
     </script>
