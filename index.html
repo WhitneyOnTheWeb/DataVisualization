@@ -8,8 +8,8 @@
     <script src="http://d3js.org/d3.v4.min.js"></script>                    <!--Import d3.js-->
     <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>   <!--Import dimple.js-->
     <script src="http://colorbrewer2.org/export/colorbrewer.js"></script>  <!--Import D3 ColorBrewer-->
-    <script type="text/javascript" src="wk_script.js"></script>             <!--Import JavaScript file-->
-    <link rel="stylesheet" type="text/css" href="style.css" />              <!--Import CSS file-->
+    <script type="text/javascript" src="js/wk_script.js"></script>             <!--Import JavaScript file-->
+    <link rel="stylesheet" type="text/css" href="css/style.css" />              <!--Import CSS file-->
 
     <script type="text/javascript">
         // Chart setup
@@ -209,7 +209,7 @@
         */
         formatYear = d3.timeParse("%Y");
         
-        d3.csv("vgsales_clean.csv", function (d) {
+        d3.csv("data/vgsales_clean.csv", function (d) {
             var epsilon = 15,
                 jitter = Math.random() * (2 * epsilon) - epsilon; // Add random jitter to scatterplot
 
