@@ -1,7 +1,275 @@
+/*
+Font Families:
+font-family: 'Roboto Condensed', sans-serif;
+font-family: 'Roboto Slab', serif;
+font-family: 'Open Sans Condensed', sans-serif;
+font-family: 'Open Sans', sans-serif;
+font-family: 'Maven Pro', sans-serif;
+font-family: 'Patrick Hand SC', cursive;
+*/
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
 circle {
-    opacity: .25;
+    fill-opacity: 1;
+    opacity: .1;
+}
+
+circle:hover {
+    fill-opacity: 1;
+    opacity: 1;
+    stroke: black;
+    r: 8;
+}
+
+h2 {
+    font-family: 'Maven Pro', sans-serif;
+    font-size: 18pt;
+}
+
+h3 {
+    font-family: 'Maven Pro', sans-serif;
+    font-size: 16pt;
+}
+
+.legend {
+    font-size: 8pt;
+    fill: black !important;
+    fill-opacity: .8;
+}
+
+.legendCircle {
+    opacity: 1 !important;
 }
 
 li {
     font-weight: bold;
+    font-size: 10pt;
+}
+
+.line {
+    fill: none;
+    stroke-width: 3;
+}
+
+p {
+    font-size: 10pt;
+}
+
+.xaxis {
+    top: 6;
+}
+
+.yaxis {
+    margin: 3px;
+}
+
+.xlabel {
+    font-weight: bolder;
+    font-size: 10pt;
+}
+
+.ylabel {
+    font-weight: bolder;
+    font-size: 10pt;
+}
+
+/*Reference: for d3-tip style: http://bl.ocks.org/Caged/6476579*/
+.d3-tip {
+  line-height: 1;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 8pt;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  padding-top: 0 !important;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+/*Custom D3 Tip Style */
+
+.tipInfo {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: 9pt;
+}
+
+.tipName {
+    color: darkcyan;
+}
+
+.tipPlatform {
+
+}
+
+.tipCompany {
+
+}
+
+.tipFranchise {
+
+}
+
+.tipGenre {
+
+}
+
+.tipPublisher {
+
+}
+
+.tipYear {
+
+}
+
+.tipGlobalSales {
+    color: red;
+}
+
+.tipNASales {
+    color: darkorchid;
+}
+
+.tipEUSales {
+    color: forestgreen;
+}
+
+.tipJPSales {
+    color: cornflowerblue;
+}
+
+.tipOtherSales {
+    color: gold;
+}
+
+.line.platform-2600 {
+    stroke: #75C2EF !important;
+}
+
+.line.platform-3DS {
+    stroke: #77D7EF;
+}
+
+.line.platform-Dreamcast {
+    stroke: #79ECEF;
+}
+
+.line.platform-DS {
+    stroke: #7BEFDE;
+}
+
+.line.platform-Game-Boy {
+    stroke: #7DEFCB;
+}
+
+.line.platform-Game-Boy-Advance {
+    stroke: #80EFB8;
+}
+
+.line.platform-Game-Cube {
+    stroke: #82EFA6;
+}
+
+.line.platform-Genesis {
+    stroke: #84EF95;
+}
+
+.line.platform-N64 {
+    stroke: #88EF86;
+}
+
+.line.platform-NES {
+    stroke: #9CEF88;
+}
+
+.line.platform-NeoGeo {
+    stroke: #AFEE8B;
+}
+
+.line.platform-PC {
+    stroke: #C1EE8D;
+}
+.line.platform-PlayStation {
+    stroke: #D2EE8F;
+}
+
+.line.platform-PlayStation-2 {
+    stroke: #E3EE91;
+}
+.line.platform-PlayStation-3 {
+    stroke: #EEE993;
+}
+
+.line.platform-PlayStation-4 {
+    stroke: #EEDA95;
+}
+
+.line.platform-PlayStation-Portable {
+    stroke: #EECB98;
+}
+
+.line.platform-PlayStation-Vita {
+    stroke: #EEBD9A;
+}
+
+.line.platform-Saturn {
+    stroke: #EEB09C;
+}
+
+.line.platform-Sega-CD {
+    stroke: #EDA49E;
+}
+
+.line.platform-Super-NES {
+    stroke: #EDA0A8;
+}
+
+.line.platform-TurboGrafx-16 {
+    stroke: #EDA3B7;
+}
+
+.line.platform-Wii {
+    stroke: #EDA5C5;
+}
+
+.line.platform-Wii-U {
+    stroke: #EDA7D2;
+}
+
+.line.platform-WonderSwan {
+    stroke: #EDA9DF;
+}
+
+.line.platform-Xbox-360 {
+    stroke: #EDABEA;
+}
+
+.line.platform-Xbox {
+    stroke: #E4ADED;
+}
+
+.line.platform-Xbox-One {
+    stroke: #DAB0ED;
 }

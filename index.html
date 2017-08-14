@@ -8,7 +8,10 @@
     <script src="http://d3js.org/d3.v4.min.js"></script>                    <!--Import d3.js-->
     <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>   <!--Import dimple.js-->
     <script src="http://colorbrewer2.org/export/colorbrewer.js"></script>  <!--Import D3 ColorBrewer-->
+    <script src="https://d3js.org/d3-array.v1.min.js"></script> <!--Import D3 Array-->
+    <script type="text/javascript" src="js/d3-tip.js"></script> <!--Import D3 Tip - https://github.com/VACLab/d3-tip/blob/master/d3-tip.js-->
     <script type="text/javascript" src="js/wk_script.js"></script>             <!--Import JavaScript file-->
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro|Open+Sans|Open+Sans+Condensed:300|Patrick+Hand+SC|Roboto+Condensed|Roboto+Slab" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css" />              <!--Import CSS file-->
 
     <script type="text/javascript">
@@ -20,43 +23,101 @@
             "use strict";
 
             // Sizing and Position Variables
-            var margin = 50,
+            var margin = 75,
                 width = 1000 - margin,
-                height = 550 - margin;
+                height = 600 - margin;
 
             var radius = 3,
                 multiplier = 2;
             var colors = {'2600' : '#75C2EF',
                           '3DS' : '#77D7EF',
-                          'DC' : '#79ECEF',
+                          'Dreamcast' : '#79ECEF',
                           'DS' : '#7BEFDE',
-                          'GB' : '#7DEFCB',
-                          'GBA' : '#80EFB8',
-                          'GC' : '#82EFA6',
-                          'GEN' : '#84EF95',
+                          'Game Boy' : '#7DEFCB',
+                          'Game Boy Advance' : '#80EFB8',
+                          'Game Cube' : '#82EFA6',
+                          'Genesis' : '#84EF95',
                           'N64' : '#88EF86',
                           'NES' : '#9CEF88',
-                          'NG' : '#AFEE8B',
+                          'NeoGeo' : '#AFEE8B',
                           'PC' : '#C1EE8D',
-                          'PS' : '#D2EE8F',
-                          'PS2' : '#E3EE91',
-                          'PS3' : '#EEE993',
-                          'PS4' : '#EEDA95',
-                          'PSP' : '#EECB98',
-                          'PSV' : '#EEBD9A',
-                          'SAT' : '#EEB09C',
-                          'SCD' : '#EDA49E',
-                          'SNES' : '#EDA0A8',
-                          'TG16' : '#EDA3B7',
+                          'PlayStation' : '#D2EE8F',
+                          'PlayStation 2' : '#E3EE91',
+                          'PlayStation 3' : '#EEE993',
+                          'PlayStation 4' : '#EEDA95',
+                          'PlayStation Portable' : '#EECB98',
+                          'PlayStation Vita' : '#EEBD9A',
+                          'Saturn' : '#EEB09C',
+                          'Sega CD' : '#EDA49E',
+                          'Super NES' : '#EDA0A8',
+                          'TurboGrafx-16' : '#EDA3B7',
                           'Wii' : '#EDA5C5',
-                          'WiiU' : '#EDA7D2',
-                          'WS' : '#EDA9DF',
-                          'X360' : '#EDABEA',
-                          'XB' : '#E4ADED',
-                          'XOne' : '#DAB0ED'};
+                          'Wii U' : '#EDA7D2',
+                          'WonderSwan' : '#EDA9DF',
+                          'Xbox 360' : '#EDABEA',
+                          'Xbox' : '#E4ADED',
+                          'Xbox One' : '#DAB0ED'};
 
+            // Create list of platforms
+            var platforms = [];
+            
+            for (var p in colors) {
+                if (p.key in platforms) {
+                    continue;
+                }
+                else {
+                    platforms.push(p);
+                }
+            };
+
+            // Add random jitter to scatterplot
             var epsilon = 15,
-                jitter = Math.random() * (2 * epsilon) - epsilon; // Add random jitter to scatterplot
+                jitter = Math.random() * (2 * epsilon) - epsilon;
+
+            // Create dictionary of data
+            function select_game(data) {
+                return data.map(function (d) {
+                    return {
+                        'Rank' : d.Rank,
+                        'Name' : d.Name,
+                        'Platform' : d.Platform,
+                        'Year' : +d.Year,
+                        'Genre' : d.Genre,
+                        'Publisher' : d.Publisher,
+                        'NA_Sales' : d.NA_Sales,
+                        'EU_Sales' : d.EU_Sales,
+                        'JP_Sales' : d.JP_Sales,
+                        'Other_Sales' : d.Other_Sales,
+                        'Global_Sales' : d.Global_Sales,
+                        'Franchise' : d.Franchise,
+                        'Console Company' : d.Console_Company
+                    }
+                })
+            };
+            
+            // Save scrubbed data
+            var dataDict = select_game(data);
+
+            // Average and sort yearly global sales by platform
+            var nestPlatform = d3.nest()
+                .key(function(d) {
+                    return d.Platform
+                })
+                .sortKeys(d3.ascending).key(function(d) {
+                    return d.Year;
+                })
+                .sortKeys(d3.ascending).rollup(function (d) {
+                    return d3.mean(d, function(e) {
+                        return e.Global_Sales;
+                    });
+                })
+                .entries(dataDict);
+
+            function update(platform) {
+                var selected_platform = nested.filter(function(d) {
+                    return +d.key === platform;
+                });
+            };
 
             d3.select('body') // Add page title
                 .append('h2')
@@ -81,63 +142,50 @@
                 .append('h3')
                 .text('Platform (Units Shipped) by Year')
 
-            function select_game(data) {
-                return data.map(function (d) {
-                    return {
-                        'Rank' : d.Rank,
-                        'Name' : d.Name,
-                        'Platform' : d.Platform,
-                        'Year' : d.Year,
-                        'Genre' : d.Genre,
-                        'Publisher' : d.Publisher,
-                        'NA_Sales' : d.NA_Sales,
-                        'EU_Sales' : d.EU_Sales,
-                        'JP_Sales' : d.JP_Sales,
-                        'Other_Sales' : d.Other_Sales,
-                        'Global_Sales' : d.Global_Sales,
-                        'Decade' : d.Decade,
-                        'Franchise' : d.Franchise,
-                        'Console Company' : d.Console_Company
-                    }
-                })
-            }
-
-            var nested = d3.nest()
-                .key(function(d) {
-                    return d.Platform;
-                })
-                .rollup(select_game)
-                .entries(data);
-
-            function update(platform) {
-                var selected_platform = nested.filter(function(d) {
-                    return +d.key === platform;
+            var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) { // Add table to tooltip with detailed information about each data point
+                    return "<table class='tooltip'><tr><td>Game:</td><td class='tipName tipInfo'>" + d.Name + "</td></tr>" +
+                           "<tr><td>Franchise:</td><td class='tipFranchise tipInfo'>" + d.Franchise + "</td></tr>" +
+                           "<tr><td>Publisher:</td><td class='tipPublisher tipInfo'>" + d.Publisher + "</td></tr>" +
+                           "<tr><td>Platform:</td><td class='tipPlatform tipInfo'>" + d.Platform + "</td></tr>" +
+                           "<tr><td>Console Company:</td><td class='tipCompany tipInfo'>" + d.Console_Company + "</td></tr>" +
+                           "<tr><td>Genre:</td><td class='tipGenre tipInfo'>" + d.Genre + "</td></tr>" +
+                           "<tr><td>Year:</td><td class='tipYear tipInfo'>" + d.Year.getFullYear() + "</td></tr></br>" +
+                           "<tr><td>Global Sales:</td><td class='tipGlobalSales tipInfo'>" + d.Global_Sales + "</td></tr>" +
+                           "<tr><td>NA Sales:</td><td class='tipNASales tipInfo'>" + d.NA_Sales + "</td></tr>" +
+                           "<tr><td>EU Sales:</td><td class='tipEUSales tipInfo'>" + d.EU_Sales + "</td></tr>" +
+                           "<tr><td>JP Sales:</td><td class='tipJPSales tipInfo'>" + d.JP_Sales + "</td></tr>" +
+                           "<tr><td>Other Sales:</td><td class='tipOtherSales tipInfo'>" + d.Other_Sales + "</td></tr></table>";
                 });
-            };
 
             var svg = d3.select('body') // Frame chart area
                 .append('svg')
-                    .attr('width', width + margin)
+                    .attr('width', width + margin + 200)
                     .attr('height', height + margin)
                 .append('g')
                     .attr('class', 'chart');
+
+            svg.call(tip);
 
             // Draw data points
             d3.select('svg')
                 .selectAll('circle')
                 .data(data)
-                .enter()
+                    .enter()
                 .append('circle')
                     .attr('class', function(d) {
                             return 'platform-' + d.Platform.replace(' ', '-') 
-                                 + ' company-' + d.Console_Company
-                                 + ' genre-' + d.Genre;
-                        });
+                                 + ' company-' + d.Console_Company;
+                        })
+                    .on('mouseover', tip.show)
+                    .on('mouseout', tip.hide);
 
             // Create X-Axis (Time)
             var time_extent = d3.extent(data, function (d) {
                  return d.Year;
-            });
+                });
 
             var time_scale = d3.scaleTime()
                 .range([margin, width])
@@ -154,25 +202,46 @@
 
             var count_scale = d3.scaleLog()
                 .base(Math.E)
-                .range([height, margin])
+                .range([height, 50])
                 .domain(count_extent);
 
             var count_axis = d3.axisLeft()
                 .scale(count_scale)
                 .ticks(10, d3.format('d'));
 
-            // Draw Axes
+            // Draw X-Axis
             d3.select('svg')
                 .append('g')
-                    .attr('class', 'x axis')
+                    .attr('class', 'xaxis')
                     .attr('transform', 'translate(0,' + height + ')')
                 .call(time_axis);
 
+            //Draw X-Axis Label
+            d3.select('svg')
+                .append("text")             
+                    .attr("x", (width / 2) + (margin / 2))
+                    .attr("y",  height + (margin / 1.5))
+                    .attr('class', 'xlabel')
+                    .style("text-anchor", "middle")
+                    .text("Year");
+
+            //Draw Y-Axis
             d3.select('svg')
                 .append('g')
-                    .attr('class', 'y axis')
+                    .attr('class', 'yaxis')
                     .attr('transform', 'translate('+ margin + ',0)')
                 .call(count_axis);
+
+            //Draw Y-Axis Label
+            d3.select('svg')
+                .append("text")
+                    .attr("transform", "rotate(-90)")             
+                    .attr("x", 0 - (height / 2) - (margin / 3))
+                    .attr("y",  margin / 3.5)
+                    .attr("dy", "1em")
+                    .attr('class', 'ylabel')
+                    .style("text-anchor", "middle")
+                    .text("Units Sold (millions)");
 
             // Position and style datapoints
             d3.selectAll('circle')
@@ -183,20 +252,91 @@
                     return count_scale(d.Global_Sales)
                 })
                 .attr('r', radius)
-                .attr('fill', function(d) {
+                .attr('fill', function(d) { // Fill each circle with a color depending on Platform name
                     for (var color in colors) {
-                        //debugger;
                         var match = false;
-
                         if (d.Platform == color) {
-                            //debugger;
                             match = true;
                             return colors[color];
                         }
-
                         if (match) { break; }
                     }
                 });
+
+            // Test platform grouping
+            //for (var p in nestPlatform) {
+            //    console.log(nestPlatform[p].key)
+            //    console.log(nestPlatform[p].values);
+            //};
+
+            // Draw mean lines
+            d3.select('svg')
+                .selectAll('path')
+                .data(nestPlatform)
+                    .enter()
+                .append('path')
+                    .attr('class', function(d) {
+                        return 'line platform-' + d.key.replace(' ', '-');
+                    });
+
+            //debugger;
+
+            //THIS NEEDS REVIEW - Paths for 2600, 3DS are not showing up
+            //Sort order for year is still not correct
+
+            // Position and style mean lines for each platform
+            var lineFunction = d3.line()
+                .curve(d3.curveBasis)
+                .x(function(d) {
+                    return time_scale(d.key);
+                })
+                .y(function(d) {
+                    return count_scale(d.value);
+                });
+
+            d3.selectAll('.line')
+                .attr('d', function(d) {
+                    return lineFunction(d.values);
+                });
+
+            // Draw legend
+            var legend = svg.append("g")
+              .attr("class", "legend")
+              .attr("transform", "translate(" + (width + 50) + "," + 20 + ")")
+              .selectAll("g")
+              .data(platforms)
+              .enter()
+              .append("g");
+
+
+            // Add colored icons to legend
+            legend.append("circle")
+              .attr("cy", function(d, i) {
+                  return i * 18;
+              })
+              .attr("r", 4)
+              .attr('class', 'legendCircle')
+              .attr("fill", function(d) { // Fill each circle with a color depending on Platform name
+                    for (var color in colors) {
+                        var match = false;
+                        if (d == color) {
+                            match = true;
+                            return colors[color];
+                        }
+                        if (match) { break; }
+                    }
+              });
+
+            // Add text labels to legend
+            legend.append("text")
+                .attr('class', 'legendLabel')
+                .attr("y", function(d, i) {
+                    return i * 18 + 5;
+                })
+                .attr("x", radius * 5)
+                .text(function(d) {
+                    return d;
+            });
         };
     </script>
 </head>
