@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="author" content="Whitney King">
     <title>P6: Data Visualization - Whitney King</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>   <!--Import jQuery-->
     <script src="http://d3js.org/d3.v4.min.js"></script>                    <!--Import d3.js-->
     <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>   <!--Import dimple.js-->
     <script src="http://colorbrewer2.org/export/colorbrewer.js"></script>  <!--Import D3 ColorBrewer-->
@@ -29,44 +30,24 @@
 
             var radius = 3,
                 multiplier = 2;
-            var colors = {'2600' : '#75C2EF',
-                          '3DS' : '#77D7EF',
-                          'Dreamcast' : '#79ECEF',
-                          'DS' : '#7BEFDE',
-                          'Game Boy' : '#7DEFCB',
-                          'Game Boy Advance' : '#80EFB8',
-                          'Game Cube' : '#82EFA6',
-                          'Genesis' : '#84EF95',
-                          'N64' : '#88EF86',
-                          'NES' : '#9CEF88',
-                          'NeoGeo' : '#AFEE8B',
-                          'PC' : '#C1EE8D',
-                          'PlayStation' : '#D2EE8F',
-                          'PlayStation 2' : '#E3EE91',
-                          'PlayStation 3' : '#EEE993',
-                          'PlayStation 4' : '#EEDA95',
-                          'PlayStation Portable' : '#EECB98',
-                          'PlayStation Vita' : '#EEBD9A',
-                          'Saturn' : '#EEB09C',
-                          'Sega CD' : '#EDA49E',
-                          'Super NES' : '#EDA0A8',
-                          'TurboGrafx-16' : '#EDA3B7',
-                          'Wii' : '#EDA5C5',
-                          'Wii U' : '#EDA7D2',
-                          'WonderSwan' : '#EDA9DF',
-                          'Xbox 360' : '#EDABEA',
-                          'Xbox' : '#E4ADED',
-                          'Xbox One' : '#DAB0ED'};
 
-            // Create list of platforms
-            var platforms = [];
+            var colorsConsole = {'Atari' : '#AC5005',
+                                 'Microsoft' : '#AF0553',
+                                 'Nintendo' : '#7004B2',
+                                 'Other' : '#0337B5',
+                                 'PC' : '#02B892',
+                                 'Sega' : '#17BB01',
+                                 'Sony' : '#BFB700'}
+
+            // Create list of companies
+            var companies = [];
             
-            for (var p in colors) {
-                if (p.key in platforms) {
+            for (var c in colorsConsole) {
+                if (c.key in companies) {
                     continue;
                 }
                 else {
-                    platforms.push(p);
+                    companies.push(c);
                 }
             };
 
@@ -90,7 +71,7 @@
                         'Other_Sales' : d.Other_Sales,
                         'Global_Sales' : d.Global_Sales,
                         'Franchise' : d.Franchise,
-                        'Console Company' : d.Console_Company
+                        'Console_Company' : d.Console_Company
                     }
                 })
             };
@@ -99,9 +80,9 @@
             var dataDict = select_game(data);
 
             // Average and sort yearly global sales by platform
-            var nestPlatform = d3.nest()
+            var nestCompany = d3.nest()
                 .key(function(d) {
-                    return d.Platform
+                    return d.Console_Company;
                 })
                 .sortKeys(d3.ascending).key(function(d) {
                     return d.Year;
@@ -113,9 +94,9 @@
                 })
                 .entries(dataDict);
 
-            function update(platform) {
-                var selected_platform = nested.filter(function(d) {
-                    return +d.key === platform;
+            function update(company) {
+                var selected_company = nested.filter(function(d) {
+                    return +d.key === company;
                 });
             };
 
@@ -140,7 +121,7 @@
 
             d3.select('body') // Add chart title
                 .append('h3')
-                .text('Platform (Units Shipped) by Year')
+                .text('Console Company (Units Shipped) by Year')
 
             var tip = d3.tip()
                 .attr('class', 'd3-tip')
@@ -152,7 +133,7 @@
                            "<tr><td>Platform:</td><td class='tipPlatform tipInfo'>" + d.Platform + "</td></tr>" +
                            "<tr><td>Console Company:</td><td class='tipCompany tipInfo'>" + d.Console_Company + "</td></tr>" +
                            "<tr><td>Genre:</td><td class='tipGenre tipInfo'>" + d.Genre + "</td></tr>" +
-                           "<tr><td>Year:</td><td class='tipYear tipInfo'>" + d.Year.getFullYear() + "</td></tr></br>" +
+                           "<tr><td>Year:</td><td class='tipYear tipInfo'>" + d.Year + "</td></tr></br>" +
                            "<tr><td>Global Sales:</td><td class='tipGlobalSales tipInfo'>" + d.Global_Sales + "</td></tr>" +
                            "<tr><td>NA Sales:</td><td class='tipNASales tipInfo'>" + d.NA_Sales + "</td></tr>" +
                            "<tr><td>EU Sales:</td><td class='tipEUSales tipInfo'>" + d.EU_Sales + "</td></tr>" +
@@ -169,6 +150,14 @@
 
             svg.call(tip);
 
+            svg.append("rect")
+                .attr('class', 'chart-background')
+                .attr("width", width - margin + 4)
+                .attr("height", height - (margin - 25))
+                .attr('left', margin)
+                .attr("fill", "whitesmoke")
+                .attr("transform", "translate(" + margin + "," + (margin - 25) + ")");
+
             // Draw data points
             d3.select('svg')
                 .selectAll('circle')
@@ -176,15 +165,16 @@
                     .enter()
                 .append('circle')
                     .attr('class', function(d) {
-                            return 'platform-' + d.Platform.replace(' ', '-') 
-                                 + ' company-' + d.Console_Company;
+                            return 'datapoint' 
+                                 + ' company-' + d.Console_Company
+                                 + ' rank-' + d.Rank;
                         })
                     .on('mouseover', tip.show)
                     .on('mouseout', tip.hide);
 
             // Create X-Axis (Time)
             var time_extent = d3.extent(data, function (d) {
-                 return d.Year;
+                    return d.Year;
                 });
 
             var time_scale = d3.scaleTime()
@@ -193,12 +183,15 @@
 
             var time_axis = d3.axisBottom()
                 .scale(time_scale)
-                .ticks(20, d3.timeFormat('%Y'));
+                .ticks(20)
+                .tickFormat(function(d) {
+                    return +d; // Convert tick labels to years
+                });
 
             // Create Y-Axis (Measure)
             var count_extent = d3.extent(data, function (d) {
-                return d.Global_Sales;
-            });
+                    return d.Global_Sales;
+                });
 
             var count_scale = d3.scaleLog()
                 .base(Math.E)
@@ -241,10 +234,10 @@
                     .attr("dy", "1em")
                     .attr('class', 'ylabel')
                     .style("text-anchor", "middle")
-                    .text("Units Sold (millions)");
+                    .text("Global Units Sold (millions)");
 
             // Position and style datapoints
-            d3.selectAll('circle')
+            d3.selectAll('.datapoint')
                 .attr('cx', function (d) {
                     return time_scale(d.Year) + d.Jitter;
                 })
@@ -252,37 +245,30 @@
                     return count_scale(d.Global_Sales)
                 })
                 .attr('r', radius)
+                .style('stroke', '0px')
                 .attr('fill', function(d) { // Fill each circle with a color depending on Platform name
-                    for (var color in colors) {
+                    for (var color in colorsConsole) {
                         var match = false;
-                        if (d.Platform == color) {
+                        if (d.Console_Company == color) {
                             match = true;
-                            return colors[color];
+                            return colorsConsole[color];
                         }
                         if (match) { break; }
                     }
                 });
-
-            // Test platform grouping
-            //for (var p in nestPlatform) {
-            //    console.log(nestPlatform[p].key)
-            //    console.log(nestPlatform[p].values);
-            //};
-
+            
+            /****************************************************************************/
+            //BASE OF MARTINI GLASS - shows average sales per platform for each given year
+            /****************************************************************************/
             // Draw mean lines
             d3.select('svg')
                 .selectAll('path')
-                .data(nestPlatform)
+                .data(nestCompany, function(d, i) { return d + i; }) // Add index so path is created for each plaform
                     .enter()
                 .append('path')
                     .attr('class', function(d) {
-                        return 'line platform-' + d.key.replace(' ', '-');
+                        return 'line company-' + d.key.replace(' ', '-');
                     });
-
-            //debugger;
-
-            //THIS NEEDS REVIEW - Paths for 2600, 3DS are not showing up
-            //Sort order for year is still not correct
 
             // Position and style mean lines for each platform
             var lineFunction = d3.line()
@@ -297,35 +283,185 @@
             d3.selectAll('.line')
                 .attr('d', function(d) {
                     return lineFunction(d.values);
+                })
+                .style('stroke', function(d) { // Fill each circle with a color depending on Platform name
+                    for (var c in colorsConsole) {
+                        var match = false;
+                        if (d.key == c) {
+                            match = true;
+                            return colorsConsole[c];
+                        }
+                        if (match) { break; }
+                    }
+                });
+
+            /****************************************************************************/
+            //STEM OF MARTINI GLASS - animation with mouse movement to show average units shipped per platform
+            //each year. The average will move with the line as the user moves their mouse.
+            /****************************************************************************/
+
+            // Show platform sales for each mean line when hovering on chart
+            //Reference:  https://bl.ocks.org/larsenmtl/e3b8b7c2ca4787f77d78f58d41c3da91
+
+            //var mouse_scale = d3.scaleTime()
+            //    .range([0, width - margin])
+            //    .domain(time_extent);
+
+            var mouseElement = svg.append('g')
+                                   .attr('class', 'mouse-over-effects');
+
+            mouseElement.append('path')  // Create vertical line to follow the mouse
+                .attr('class', 'mouse-line')
+                .attr('height', height - margin)
+                .style('stroke', 'darkgrey')
+                .attr("transform", "translate(" + margin + "," + (margin - 25) + ")")
+                .style('stroke-width', '1px')
+                .style('opacity', '0');
+
+            var lines = document.getElementsByClassName('line');
+
+            var mousePerLine = mouseElement.selectAll('.mouse-per-line')
+                .data(nestCompany, function(d, i) { return d + i; })
+                    .enter()
+                .append('g')
+                    .attr('class', 'mouse-per-line');
+
+            mousePerLine.append("circle")
+                .attr("r", 7)
+                .style('stroke', function(d) { // Fill each circle with a color depending on Platform name
+                    for (var c in colorsConsole) {
+                        var match = false;
+                        if (d.key == c) {
+                            match = true;
+                            return colorsConsole[c];
+                        }
+                        if (match) { break; }
+                    }
+                })
+                .style("fill", "none")
+                .style("stroke-width", "3px")
+                .style("opacity", "0")
+                .attr('z-index', 9999999)
+                .attr("transform", "translate(" + margin + ",0)");
+
+            mousePerLine.append('text')
+                .attr("transform", "rotate(-45) translate(65, 57)") ;
+
+            mouseElement.append('svg:rect') // append a rect to catch mouse movements on canvas
+                .attr("width", width - margin)
+				.attr("transform", "translate(" + margin + "," + (margin - 25) + ")")
+                .attr("height", height - 50)
+                .attr('fill', 'none')
+                .attr('pointer-events', 'all')
+                .on('mouseout', function() { // on mouse out hide line, circles and text
+                    d3.select(".mouse-line")
+                    .style("opacity", "0");
+                    d3.selectAll(".mouse-per-line circle")
+                    .style("opacity", "0");
+                    d3.selectAll(".mouse-per-line text")
+                    .style("opacity", "0");
+                })
+                .on('mouseover', function() { // on mouse in show line, circles and text
+                    d3.select(".mouse-line")
+                        .style("opacity", "1");
+                    d3.selectAll(".mouse-per-line circle")
+                        .style("opacity", "1");
+                    d3.selectAll(".mouse-per-line text")
+                        .style("opacity", "1");
+                })
+                .on('mousemove', function() { // mouse moving over canvas
+                    var mouse = d3.mouse(this);
+                    d3.select(".mouse-line")
+                        .attr("d", function() {
+                            var d = "M" + mouse[0] + "," + (height - 50);
+                            d += " " + mouse[0] + "," + 0;
+                            return d;
+                        });
+
+                    d3.selectAll(".mouse-per-line circle")
+                        .style("opacity", function (d) {
+                                var xYear = +time_scale.invert(mouse[0]) + 3;
+                                if (d.key == '2600') {
+                                    console.log(d.key + " MouseYear: " + xYear)
+                                    console.log('[' + d.values[0].key + ', ' + d.values[d.values.length - 1].key + ']')
+                                }
+                                if (xYear >= d.values[0].key && xYear < d.values[d.values.length - 1].key) {
+                                    return "1";
+                                }
+                                else {
+                                    return "0";
+                                };
+                            });
+
+                    d3.selectAll(".mouse-per-line text")
+                            .style("opacity",  function (d) {
+                                var xYear = +time_scale.invert(mouse[0]) + 3;
+                                if (xYear >= d.values[0].key && xYear < d.values[d.values.length - 1].key) {
+                                    return "1";
+                                }
+                                else {
+                                    return "0";
+                                };
+                            });
+
+                    d3.selectAll(".mouse-per-line")
+                        .attr("transform", function(d, i) {
+                                var xYear = +time_scale.invert(mouse[0]) + 3,
+                                    bisect = d3.bisector(function(d) { return d.Year; }).right,
+                                    idx = bisect(d.values, xYear);
+                                var beginning = 0,
+                                    end = lines[i].getTotalLength(),
+                                    target = null;
+
+                                while (true){
+                                    target = Math.floor((beginning + end) / 2);
+                                    var pos = lines[i].getPointAtLength(target);
+                                    if ((target === end || target === beginning) && (pos.x - margin) !== mouse[0]) {
+                                        break;
+                                    }
+                                    if ((pos.x - margin) > mouse[0])      end = target;
+                                    else if ((pos.x - margin) < mouse[0]) beginning = target;
+                                    else break; //position found
+                                }
+                                    
+                                var yCount = count_scale.invert(pos.y).toFixed(2);
+                                //debugger;
+                                d3.select(this).select('text')
+                                    .attr('class', d.key + '-text')
+                                    .style('z-index', 9999999)
+                                    .style('position', 'absolute')
+                                    .text(d.key + ":  " + yCount + "m");
+                                    
+                                return "translate(" + mouse[0] + "," + pos.y +")";
+                            });
                 });
 
             // Draw legend
             var legend = svg.append("g")
-              .attr("class", "legend")
-              .attr("transform", "translate(" + (width + 50) + "," + 20 + ")")
-              .selectAll("g")
-              .data(platforms)
-              .enter()
-              .append("g");
-
+                .attr("class", "legend")
+                .attr("transform", "translate(" + (width + 50) + "," + 20 + ")")
+                .selectAll("g")
+                .data(companies)
+                .enter()
+                .append("g");
 
             // Add colored icons to legend
             legend.append("circle")
-              .attr("cy", function(d, i) {
-                  return i * 18;
-              })
-              .attr("r", 4)
-              .attr('class', 'legendCircle')
-              .attr("fill", function(d) { // Fill each circle with a color depending on Platform name
-                    for (var color in colors) {
+                .attr("cy", function(d, i) {
+                    return i * 18;
+                })
+                .attr("r", 4)
+                .attr('class', 'legendCircle')
+                .attr("fill", function(d) { // Fill each circle with a color depending on Platform name
+                    for (var color in colorsConsole) {
                         var match = false;
                         if (d == color) {
                             match = true;
-                            return colors[color];
+                            return colorsConsole[color];
                         }
                         if (match) { break; }
                     }
-              });
+                });
 
             // Add text labels to legend
             legend.append("text")
@@ -347,24 +483,23 @@
         Use D3 to load the CSV file
         and pass the contents of it to the draw function
         */
-        formatYear = d3.timeParse("%Y");
         
         d3.csv("data/vgsales_clean.csv", function (d) {
             var epsilon = 15,
                 jitter = Math.random() * (2 * epsilon) - epsilon; // Add random jitter to scatterplot
 
             d.Rank = +d.Rank;
-            d.Year = formatYear(+d.Year); // Convert Year to DateTime
+            d.Year = +d.Year; // Convert Year to DateTime
             if (!isNaN(d.NA_Sales)) { d.NA_Sales = parseFloat(d.NA_Sales); } // Convert decimals to float values
             if (!isNaN(d.EU_Sales)) { d.EU_Sales = parseFloat(d.EU_Sales); }
             if (!isNaN(d.JP_Sales)) { d.JP_Sales = parseFloat(d.JP_Sales); }
             if (!isNaN(d.Other_Sales)) { d.Other_Sales = parseFloat(d.Other_Sales); }
             if (!isNaN(d.Global_Sales)) { d.Global_Sales = parseFloat(d.Global_Sales); }
             d.Jitter = parseFloat(jitter.toFixed(4)); //Add x-axis jitter value for datapoint
-            if ((d.Year == 'Tue Jan 01 1980 00:00:00 GMT-0800 (Pacific Standard Time)') && (d.Jitter < 0)) {
+            if ((d.Year == '1980') && (d.Jitter < 0)) {
                 d.Jitter = 0;
             }  
-            if ((d.Year == 'Fri Jan 01 2016 00:00:00 GMT-0800 (Pacific Standard Time)') && (d.Jitter > 0)) {
+            if ((d.Year == '2016') && (d.Jitter > 0)) {
                 d.Jitter = 0;
             }
             return d;

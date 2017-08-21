@@ -12,15 +12,13 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
-circle {
+.datapoint {
     fill-opacity: 1;
-    opacity: .1;
+    opacity: .2;
 }
 
-circle:hover {
-    fill-opacity: 1;
+.datapoint:hover {
     opacity: 1;
-    stroke: black;
     r: 8;
 }
 
@@ -52,10 +50,23 @@ li {
 .line {
     fill: none;
     stroke-width: 3;
+    opacity: .7;
+    z-index: -1 !important;
+    position: absolute;
+}
+
+.mouse-per-line {
+    font-size: 8pt;
+    font-weight: bold;
 }
 
 p {
     font-size: 10pt;
+}
+
+.chart-background {
+    stroke: black;
+    stroke-width: 1px;
 }
 
 .xaxis {
@@ -81,7 +92,7 @@ p {
   line-height: 1;
   font-family: 'Open Sans Condensed', sans-serif;
   font-size: 8pt;
-  padding: 12px;
+  padding: 5px;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border-radius: 2px;
@@ -92,7 +103,7 @@ p {
 .d3-tip:after {
   box-sizing: border-box;
   display: inline;
-  font-size: 10px;
+  font-size: 8px;
   width: 100%;
   line-height: 1;
   color: rgba(0, 0, 0, 0.8);
@@ -113,7 +124,7 @@ p {
 .tipInfo {
     font-family: 'Open Sans', sans-serif;
     font-weight: bold;
-    font-size: 9pt;
+    font-size: 8pt;
 }
 
 .tipName {
@@ -162,114 +173,4 @@ p {
 
 .tipOtherSales {
     color: gold;
-}
-
-.line.platform-2600 {
-    stroke: #75C2EF !important;
-}
-
-.line.platform-3DS {
-    stroke: #77D7EF;
-}
-
-.line.platform-Dreamcast {
-    stroke: #79ECEF;
-}
-
-.line.platform-DS {
-    stroke: #7BEFDE;
-}
-
-.line.platform-Game-Boy {
-    stroke: #7DEFCB;
-}
-
-.line.platform-Game-Boy-Advance {
-    stroke: #80EFB8;
-}
-
-.line.platform-Game-Cube {
-    stroke: #82EFA6;
-}
-
-.line.platform-Genesis {
-    stroke: #84EF95;
-}
-
-.line.platform-N64 {
-    stroke: #88EF86;
-}
-
-.line.platform-NES {
-    stroke: #9CEF88;
-}
-
-.line.platform-NeoGeo {
-    stroke: #AFEE8B;
-}
-
-.line.platform-PC {
-    stroke: #C1EE8D;
-}
-.line.platform-PlayStation {
-    stroke: #D2EE8F;
-}
-
-.line.platform-PlayStation-2 {
-    stroke: #E3EE91;
-}
-.line.platform-PlayStation-3 {
-    stroke: #EEE993;
-}
-
-.line.platform-PlayStation-4 {
-    stroke: #EEDA95;
-}
-
-.line.platform-PlayStation-Portable {
-    stroke: #EECB98;
-}
-
-.line.platform-PlayStation-Vita {
-    stroke: #EEBD9A;
-}
-
-.line.platform-Saturn {
-    stroke: #EEB09C;
-}
-
-.line.platform-Sega-CD {
-    stroke: #EDA49E;
-}
-
-.line.platform-Super-NES {
-    stroke: #EDA0A8;
-}
-
-.line.platform-TurboGrafx-16 {
-    stroke: #EDA3B7;
-}
-
-.line.platform-Wii {
-    stroke: #EDA5C5;
-}
-
-.line.platform-Wii-U {
-    stroke: #EDA7D2;
-}
-
-.line.platform-WonderSwan {
-    stroke: #EDA9DF;
-}
-
-.line.platform-Xbox-360 {
-    stroke: #EDABEA;
-}
-
-.line.platform-Xbox {
-    stroke: #E4ADED;
-}
-
-.line.platform-Xbox-One {
-    stroke: #DAB0ED;
 }
