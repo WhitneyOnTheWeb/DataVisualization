@@ -477,7 +477,11 @@
                 .selectAll("g")
                 .data(companies)
                     .enter()
-                .append("g");
+                .append("g")
+                    .attr('class', function(d) { // Add background for legend buttons
+                        return 'legend-button button-' + d;
+                    })
+                    .style('stroke', 'black');
 
             // Add colored icons to legend
             legend.append("circle")
@@ -531,18 +535,27 @@
                     var companyName = 'line-company-' + d;
                     var switchLineOpacity;
                     var switchDatapointOpacity;
+                    var buttonBackground;
+                    var buttonStroke;
 
                     if (document.getElementById(companyName).style.opacity == .7) {
                         switchLineOpacity = 0;
                         switchDatapointOpacity = 0;
+                        buttonBackground = 'transparent';
+                        buttonStroke = '0px';
                     }
                     else {
                         switchLineOpacity = .7;
                         switchDatapointOpacity = .15;
+                        buttonBackground = 'darkgray';
+                        buttonStroke = '2px';
                     };
 
                     d3.select('#' + companyName)
                         .style("opacity", switchLineOpacity);
+
+                    var buttonColor = d3.selectAll('.button-' + d);
+                    buttonColor.style('background-color', buttonBackground);
 
                     var dataOpacity = d3.selectAll('.datapoint.company-' + d);                    
                     dataOpacity.style('opacity', switchDatapointOpacity);

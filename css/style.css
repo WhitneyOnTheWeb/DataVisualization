@@ -28,12 +28,16 @@ h3 {
 
 .legend {
     font-size: 10pt;
-    fill: black !important;
-    fill-opacity: .8;
 }
 
 .legendCircle {
     opacity: 1 !important;
+    stroke: none;
+}
+
+.legendLabel {
+    stroke: none;
+    background-color: transparent;
 }
 
 li {
