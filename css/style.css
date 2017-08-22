@@ -14,12 +14,6 @@ body {
 
 .datapoint {
     fill-opacity: 1;
-    opacity: .2;
-}
-
-.datapoint:hover {
-    opacity: 1;
-    r: 8;
 }
 
 h2 {
@@ -33,7 +27,7 @@ h3 {
 }
 
 .legend {
-    font-size: 8pt;
+    font-size: 10pt;
     fill: black !important;
     fill-opacity: .8;
 }
