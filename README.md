@@ -20,9 +20,47 @@ This visualization is a good representation of the console wars, since each comp
 
 #### *First Draft (Feedback #1)*
 
+Feedback By:  Stephen V King III
+
+- **What do you notice in the visualization?**
+
+- **What questions do you have about the data?**
+
+- **What relationships do you notice?**
+
+- **What do you think is the main takeaway from this visualization?**
+
+- **Is there something you don’t understand in the graphic?**
+
+
 #### *Revision 1 (Feedback #2)*
 
+Feedback By:  Mike Ihlenfeldt
+
+- **What do you notice in the visualization?**
+
+- **What questions do you have about the data?**
+
+- **What relationships do you notice?**
+
+- **What do you think is the main takeaway from this visualization?**
+
+- **Is there something you don’t understand in the graphic?**
+
+
 #### *Revision 2 (Feedback #3)*
+
+Feedback By:  
+
+- **What do you notice in the visualization?**
+
+- **What questions do you have about the data?**
+
+- **What relationships do you notice?**
+
+- **What do you think is the main takeaway from this visualization?**
+
+- **Is there something you don’t understand in the graphic?**
 
 
 ### Resources
