@@ -18,22 +18,23 @@ This visualization is a good representation of the console wars, since each comp
 
 ### Feedback
 
-#### *First Draft*
+#### *First Draft (Feedback #1)*
 
-#### *Revision 1*
+#### *Revision 1 (Feedback #2)*
 
-#### *Revision 2*
+#### *Revision 2 (Feedback #3)*
 
-#### *Revision 3 - Final*
 
 ### Resources
 
 - **Data Exploration**:  [VGChartz_AnalysisInR.ipynb](https://github.com/WhitneyOnTheWeb/DataExploration_R/blob/master/VGCharts_AnalysisInR.ipynb)
-- **Dataset**: VGChartz: Top 10,000 Best Selling Video Games Globally (Cleaned)
+- **Dataset**: VGChartz: Top 5,000 Best Selling Video Games Globally (Cleaned)
 - **Data File**:  [vgsales_clean.csv](https://github.com/WhitneyOnTheWeb/DataExploration_R/blob/master/vgsales_clean.csv)
-- **Chart Mock Up** [SVG Image](https://github.com/WhitneyOnTheWeb/DataVisualization/blob/master/mockup.svg)
+- **Chart Mock Up**: [SVG Image](https://github.com/WhitneyOnTheWeb/DataVisualization/blob/master/mockup.svg)
 
 ### External Resources
 
+- [Moving Average Lines](https://bl.ocks.org/larsenmtl/e3b8b7c2ca4787f77d78f58d41c3da91)
+- [d3-tip](https://github.com/Caged/d3-tip)
 - [*Upgrading D3 from v3 to v4*](https://keithpblog.wordpress.com/2016/07/31/upgrading-d3-from-v3-to-v4/)
 - [*Narrative Structures in Data Visualizations to Improve Storytelling*](http://mastersofmedia.hum.uva.nl/blog/2011/05/03/narrative-structures-in-data-visualizations-to-improve-storytelling/)
