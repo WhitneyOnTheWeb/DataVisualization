@@ -31,6 +31,7 @@ This visualization is a good representation of the console wars, since each comp
 - **Dataset**: VGChartz: Top 5,000 Best Selling Video Games Globally (Cleaned)
 - **Data File**:  [vgsales_clean.csv](https://github.com/WhitneyOnTheWeb/DataExploration_R/blob/master/vgsales_clean.csv)
 - **Chart Mock Up**: [SVG Image](https://github.com/WhitneyOnTheWeb/DataVisualization/blob/master/mockup.svg)
+- **External HTML**: [WhitneyOnTheWeb](http://whitneyontheweb.com/data_vis/index.html)
 
 ### External Resources
 
