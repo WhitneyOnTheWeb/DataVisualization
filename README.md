@@ -1,6 +1,7 @@
 # Data Visualization
 ## P6: Make Effective Data Visualization
 ##### Author: Whitney King
+##### Date Updated: 8/23/2017 
 
 ### Summary
 
