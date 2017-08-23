@@ -6,15 +6,15 @@
 
 The dataset chosen for this project was originally wrangled and cleaned for P4: Data Exploration in R, which is located in the [DataExploration_R repository](https://github.com/WhitneyOnTheWeb/DataExploration_R). 
 
-The dataset contains information about and sales numbers for *VGChartz: Top 10,000 Best Selling Video Games Globally*. Expanding on the wrangled and cleaned dataset generated as part of an earlier project made sense, since it allowed me to work with an original dataset without expending a lot of extra time doing it again. 
+The dataset contains information about and sales numbers for *VGChartz: Top 5,000 Best Selling Video Games Globally*. Expanding on the wrangled and cleaned dataset generated as part of an earlier project made sense, since it allowed me to work with an original dataset without expending a lot of extra time doing it again.
 
 ### Design
 
-One of the most interesting, yet difficult to explore charts from the data exploration was global sales for each game released,faceted by franchise. This returned a whole lot of information, but so many charts that it quickly becomes overwhelming for any reader attempting to glean information from it. When thinking about which findings to detail in an interactive data visualization, this was the one that jumped to the forefront that would be a lot more informative if the user could interactively explore some more.
+The design for this data visualization was chosen to be a line graph with scatterplot points, that is accompanied by an overlayed line showing mean sales per title for each company year over year. 
 
-The design for this data visualization was chosen to be a line graph with scatterplot points. 
+The reader will begin the exploration at the 'base of the martini glass' by loading the visualization showing a scatterplot color-coded by console company. There is also a line for each company that shows average sales per game on each console year over year. From there, they will follow the 'stem of the martini glass' by being able to select which series of data are displayed. Finally, for the 'mouth of the martini glass', the reader will be able to hover over the individual points of data for each game to see the detailed information about that specific title.
 
-The reader will begin the exploration at the 'base of the martini glass' by the visualization showing color-coded franchises together on a scatterplot. From there, they will follow the 'stem of the martini glass' by being guided through an animation that highlights the best selling franchise each year. Finally, for the 'mouth of the martini glass', the reader will be able to pick from a list of video game franchises that will drill down into the sales trends for each franchise year over year, then hover over plot points to get detailed information on each video game.
+This visualization is a good representation of the console wars, since each company has produced several consoles with games that are in the top 5,000 of all time by global units sold. The reader can see how each company has done with average sales per year, and how they stacked up against other companies selling games.
 
 ### Feedback
 

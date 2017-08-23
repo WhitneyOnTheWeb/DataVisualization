@@ -21,17 +21,19 @@ h2 {
     font-size: 18pt;
 }
 
-h3 {
+.chart-title {
     font-family: 'Maven Pro', sans-serif;
     font-size: 16pt;
+    font-weight: bolder;
+    padding-bottom: 20px;
 }
 
 .legend {
     font-size: 10pt;
+    font-weight: bolder;
 }
 
 .legendCircle {
-    opacity: 1 !important;
     stroke: none;
 }
 
