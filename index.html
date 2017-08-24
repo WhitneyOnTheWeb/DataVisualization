@@ -112,7 +112,7 @@
             d3.select('body') // Add factoids about insights that can be expected from the data visualization
                 .append('ul')
                     .append('li')
-                        .text('Y-Axis is shown in logarithmic scale due to the extremely wide range in values for number of units sold')
+                        .text('Y-Axis is shown in logarithmic scale due to the extremely wide range in values for number of units shipped')
                     .append('li')
                         .text('X-Axis only shows games from 1980 - 2016, which were years with complete data')
                     .append('li')
@@ -223,7 +223,7 @@
                     .attr("dy", "1em")
                     .attr('class', 'ylabel')
                     .style("text-anchor", "middle")
-                    .text("Global Units Sold (millions)");
+                    .text("Global Units Shipped (millions)");
 
             /****************************************************************************/
             //BASE OF MARTINI GLASS - shows average sales per platform for each given year
@@ -408,7 +408,7 @@
                             return d;
                         });
 
-                    d3.selectAll(".mouse-per-line circle")
+                    d3.selectAll(".mouse-per-line circle") // position circle over mean line for each series
                         .attr('class', function (d) {
                                 d.key + '-circle company-' + d.key
                             })
@@ -427,7 +427,7 @@
                             };
                         });
 
-                    d3.selectAll(".mouse-per-line text")
+                    d3.selectAll(".mouse-per-line text")    // position label over mean line for each series
                         .style("opacity",  function (d) {
                             var xYear = +time_scale.invert(mouse[0]) + 3;
                             if ((xYear >= d.values[0].key && xYear < d.values[d.values.length - 1].key)) {
@@ -704,7 +704,7 @@
                     d3.selectAll('.button-text-' + d)
                         .attr('fill', buttonText);
                 });
-                
+
             //Show one mean line at a time
             var interval = 1200;
             var companyIndex = 0;
