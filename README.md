@@ -75,13 +75,28 @@ Feedback By:  Bryan Yager
 
 - **What do you notice in the visualization?**
 
+   No response
+
 - **What questions do you have about the data?**
+
+   - How much of the average dropoff per platform is due to shifts from one system to another and how much is due to oversaturation within a given market, such as what happened with Atari near the time that ET The Exterrestrial video game was produced?
+   - How much of the average dropoff per platform is due to the wider variety of choices? For instance, PC games beginning in 2006 or five competing manufacturers from 1994 onwards. 
 
 - **What relationships do you notice?**
 
+   - Atari started off with lots of choices, several of which were popular, but their market dried up as titles stopped being produced.
+   - Nintendo, on the other hand, seemed to weather a surge in choices between 2008 and 2010 pretty well.
+   - Microsoft has had a steady number of titles per year, with lots of below-average titles and a slowly increasing number of breakout hits between 2005 and 2013.
+
 - **What do you think is the main takeaway from this visualization?**
+   Average game sales per title for a given platform tend go down as the number of possible choices (in titles and platforms) increase. 
 
 - **Is there something you don’t understand in the graphic?**
+   No, but it would be nice to have an aggregate of total game sales for each platform for comparison purposes, to weed out the difference between a glut of titles for a given system and loss of overall market share to other systems.
+
+### Conclusions
+
+After reviewing the feedback, I opted to not make any changes at this time. The majority of questions about the data pertain to individual platform sales instead of sales by company. I agree that going one step further by breaking out each company by platform would be extremely interesting, however it wasn't the objective of this particular visualization. Looking at this data broken down by company gives a different and somewhat more informative view of who is winning the console wars, as platforms tend to come and go relatively quickly, however companies that release game platforms tend to do so fairly regularly.
 
 
 ### Resources
