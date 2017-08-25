@@ -11,9 +11,9 @@ The dataset contains information about and sales numbers for *VGChartz: Top 5,00
 
 ### Design
 
-The design for this data visualization was chosen to be a line graph with scatterplot points, that is accompanied by an overlayed line showing mean sales per title for each company year over year. 
+The design for this data visualization was chosen to be a color-coded graph with scatterplot points, that is accompanied by an overlayed line showing mean sales per title for each company year over year. 
 
-The reader will begin the exploration at the 'base of the martini glass' by loading the visualization showing a scatterplot color-coded by console company. There is also a line for each company that shows average sales per game on each console year over year. From there, they will follow the 'stem of the martini glass' by being able to select which series of data are displayed. Finally, for the 'mouth of the martini glass', the reader will be able to hover over the individual points of data for each game to see the detailed information about that specific title.
+The reader will begin the exploration at the 'base of the martini glass' by loading the visualization showing a scatterplot color-coded by console company. There is also a line for each company that shows average sales per game on each console year over year. From there, they will follow the 'stem of the martini glass' by being able to select which series of data are displayed by using the legend, which doubles as selectable buttons. Finally, for the 'mouth of the martini glass', the reader will be able to hover over the individual points of data for each game to see the detailed information about that specific title.
 
 This visualization is a good representation of the console wars, since each company has produced several consoles with games that are in the top 5,000 of all time by global units sold. The reader can see how each company has done with average sales per year, and how they stacked up against other companies selling games.
 
