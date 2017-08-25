@@ -71,7 +71,7 @@ Feedback By:  Mike Ihlenfeldt
 
 #### *Revision 2 (Feedback #3)*
 
-Feedback By:  
+Feedback By:  Bryan Yager
 
 - **What do you notice in the visualization?**
 
