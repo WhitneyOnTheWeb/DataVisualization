@@ -98,6 +98,7 @@ Feedback By:  Bryan Yager
 
 After reviewing the feedback, I opted to not make any changes at this time. The majority of questions about the data pertain to individual platform sales instead of sales by company. I agree that going one step further by breaking out each company by platform would be extremely interesting, however it wasn't the objective of this particular visualization. Looking at this data broken down by company gives a different and somewhat more informative view of who is winning the console wars, as platforms tend to come and go relatively quickly, however companies that release game platforms tend to do so fairly regularly.
 
+For the code change history, you're able to see improvments that were maked based on the initial concept of the chart in the files folder.
 
 ### Resources
 
