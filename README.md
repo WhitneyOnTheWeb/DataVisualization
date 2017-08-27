@@ -9,13 +9,18 @@ The dataset chosen for this project was originally wrangled and cleaned for P4: 
 
 The dataset contains information about and sales numbers for *VGChartz: Top 5,000 Best Selling Video Games Globally*. Expanding on the wrangled and cleaned dataset generated as part of an earlier project made sense, since it allowed me to work with an original dataset without expending a lot of extra time doing it again.
 
-### Design
+### Design Overview
 
-The design for this data visualization was chosen to be a color-coded graph with scatterplot points, that is accompanied by an overlayed line showing mean sales per title for each company year over year. 
+The design for this data visualization was chosen to be a color-coded graph with scatterplot points, that is accompanied by an overlayed line showing mean sales per title for each company year over year. The datapoints of the scatter plot are jittered and set to .15 transparency to aid in visual ingestion of the density of games released in a certain year that sold around the same number of copies.
 
 The reader will begin the exploration at the 'base of the martini glass' by loading the visualization showing a scatterplot color-coded by console company. There is also a line for each company that shows average sales per game on each console year over year. From there, they will follow the 'stem of the martini glass' by being able to select which series of data are displayed by using the legend, which doubles as selectable buttons. Finally, for the 'mouth of the martini glass', the reader will be able to hover over the individual points of data for each game to see the detailed information about that specific title.
 
-This visualization is a good representation of the console wars, since each company has produced several consoles with games that are in the top 5,000 of all time by global units sold. The reader can see how each company has done with average sales per year, and how they stacked up against other companies selling games.
+#### Design Decisions
+
+- **Scatterplot**:  Showing the datapoints for every game is a quick and rich way for the reader to see patterns in game sales throughout history. Displaying all datapoints for all series is the base of the martini glass. 
+- **Mean Lines**:  This type of plot is a good representation of the console wars, since each major company producting game platforms has released several consoles with games that are in the top 5,000 of all time by global units sold. The reader can see how each company has done with average sales per year, and how they stacked up against other companies selling games. Having the moving average for each mean as the reader moves their mouse in the chart space acts as the stem of the martini glass, and let the user explore average units shipped per game for each console company each year.
+- **Legend Buttons**:  Turning the legend into interactive buttons was a good way to let the user filter through the amount of information being displayed in the chart, without crowding the page up with too many elements. This also enables detailed comparisons between console companies, since the reader can select to display as many or as few of the series as they wish.
+- **Tooltips**: When coupled with the datapoints of the scatterplot, making tooltips available as part of the exploration allows for the reader to explore the mouth of the martini glass by looking into the information associated with each individual title released.
 
 ### Feedback
 
@@ -94,11 +99,11 @@ Feedback By:  Bryan Yager
 - **Is there something you don’t understand in the graphic?**
    No, but it would be nice to have an aggregate of total game sales for each platform for comparison purposes, to weed out the difference between a glut of titles for a given system and loss of overall market share to other systems.
 
-### Conclusions
+### Changes Made
 
-After reviewing the feedback, I opted to not make any changes at this time. The majority of questions about the data pertain to individual platform sales instead of sales by company. I agree that going one step further by breaking out each company by platform would be extremely interesting, however it wasn't the objective of this particular visualization. Looking at this data broken down by company gives a different and somewhat more informative view of who is winning the console wars, as platforms tend to come and go relatively quickly, however companies that release game platforms tend to do so fairly regularly.
+After reviewing the feedback, I opted to not make any changes to the chart. The majority of questions about the visualization from the readers pertain to individual platform sales instead of sales by company. I agree that going one step further by breaking out each company by platform would be extremely interesting, however it wasn't the objective of this particular visualization. Looking at this data broken down by company gives a different and somewhat more informative view of who is winning the console wars, as platforms tend to come and go relatively quickly, however companies that release game platforms tend to do so fairly regularly. 
 
-For the code change history, you're able to see improvments that were maked based on the initial concept of the chart in the files folder.
+As I build this data visualization, I was making continual improvements based on verbal feedback I was receiveing from the people who would become my readers as to what kind of functionality they would like to see. Much of these improvements can be seen by reviewing the code change history of index.html on GitHub.
 
 ### Resources
 
